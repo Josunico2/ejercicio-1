@@ -1,7 +1,7 @@
 //Constantes del juego
-const COLUMNAS = 10;
-const FILAS = 10;
-const CANTIDAD_MINAS = 10;
+const COLUMNAS = 3;
+const FILAS = 3;
+const CANTIDAD_MINAS = 1;
 
 //Variables con colores para los casilleros (NO se pudieron declarar como constantes ya que  la fn color sólo está definida para el setup y el draw)
 var COLOR_CASILLERO_CON_MINA;
@@ -22,6 +22,7 @@ function setup()
   createCanvas(500, 500);   //crea un lienzo o panel donde estará el juego. El primer parámetro es el ancho y el segundo el alto del lienzo.
   laMagiaDeLosProfes();
   ponerMinasTablero();
+  casillerosSinDescubrir = COLUMNAS * FILAS;
 
   //Asigno colores que se utilizarán. La fn color solo está definida para el setup y el draw
   COLOR_CASILLERO_CON_MINA = color("#FF0000");
@@ -35,13 +36,26 @@ function setup()
 function draw() {
   if (hizoClick == true)
   {
-    if (tieneMinaCasillero(columnaPresionada, filaPresionada)){
-      perder(); 
+    if (mouseButton == LEFT){
+      if (tieneMinaCasillero(columnaPresionada, filaPresionada)){
+        perder(); 
+      }
+      else{
+        pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_SIN_MINA); //pinta el casillero clickeado. Modificar/completar
+        descubrirCasillero(columnaPresionada, filaPresionada);
+        console.log(casillerosSinDescubrir);
+        if(ganoElJuego == true){
+          ganar();
+        }
+
+      }
     }
-    else{
-      descubrirCasillero(columnaPresionada, filaPresionada);
-      pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_SIN_MINA); //pinta el casillero clickeado. Modificar/completar
+    if (mouseButton == RIGHT){
+      pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_MARCADO);
     }
+    
+  
+
     
 
     
@@ -52,12 +66,12 @@ function draw() {
 
 function ganoElJuego()
 {
-  return false;   //Esto hace que NUNCA gane el juego. Modificar/completar
+  return (CANTIDAD_MINAS == casillerosSinDescubrir);   //Esto hace que NUNCA gane el juego. Modificar/completar
 }
 
 function ponerMinasTablero()
 {
-  ponerMinaCasillero(5,5);
+  ponerMinaCasillero(0,0);
 }
 
 function mostrarMinas()
