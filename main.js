@@ -38,7 +38,8 @@ function draw() {
   {
     if (mouseButton == LEFT){
       if (tieneMinaCasillero(columnaPresionada, filaPresionada)){
-        perder(); 
+        perder();
+        mostrarMinas();
       }
       else{
         pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_SIN_MINA); //pinta el casillero clickeado. Modificar/completar
@@ -46,6 +47,7 @@ function draw() {
         
         if(ganoElJuego() == true){
           ganar();
+          mostrarMinas();
         }
 
       }
@@ -68,11 +70,11 @@ function ponerMinasTablero()
 {
   let minas = CANTIDAD_MINAS;
   while(minas != 0){
-    let numeroRandomCol = Math.floor(Math.random() * COLUMNAS)
-    let numeroRandomFil = Math.floor(Math.random() * FILAS)
+    let numeroRandomCol = Math.floor(Math.random() * COLUMNAS);
+    let numeroRandomFil = Math.floor(Math.random() * FILAS);
     if(!tieneMinaCasillero(numeroRandomCol,numeroRandomFil)){
       minas -= 1;
-      ponerMinasTablero(numeroRandomCol, numeroRandomFil)
+      ponerMinaCasillero(numeroRandomCol, numeroRandomFil);
       pintarCasillero(numeroRandomCol, numeroRandomFil, COLOR_CASILLERO_CON_MINA);
     } 
   } 
@@ -80,10 +82,24 @@ function ponerMinasTablero()
 
 function mostrarMinas()
 {
-  // Modificar/completar
+  for(let i = 0; i< COLUMNAS; i++){
+    for(let j = 0; j< FILAS; j++){
+      if(tieneMinaCasillero(i,j)){
+        pintarCasillero(i,j,COLOR_CASILLERO_CON_MINA)
+      }
+    }
+  }
 }
 
 function contarMinasAlrededor(columna, fila)
 {
-  return 9;   //Esto hace que SIEMPRE cuente 9 minas alrededor. Modificar/completar
+  let arr1 = [-1,0,1,1,1,0,-1,-1];
+  let arr2 = [-1,-1,-1,0,1,1,1,0,];
+
+  for(let i = 0; i < 8; i++){
+    if (tieneMinaCasillero(columna + arr1[i], fila + arr2[i])){
+      cont++;
+    }
+  }
+  return cont;   //Esto hace que SIEMPRE cuente 9 minas alrededor. Modificar/completar
 }
