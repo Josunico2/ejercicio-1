@@ -39,16 +39,18 @@ function draw() {
   {
     if (mouseButton == LEFT){
       if (tieneMinaCasillero(columnaPresionada, filaPresionada)){
-        perder();
         mostrarMinas();
+        perder();
+        
       }
       else{
         pintarCasillero(columnaPresionada, filaPresionada, COLOR_CASILLERO_SIN_MINA); //pinta el casillero clickeado. Modificar/completar
         descubrirCasillero(columnaPresionada, filaPresionada);
         
         if(ganoElJuego() == true){
-          ganar();
           mostrarMinas();
+          ganar();
+          
         }
 
       }
