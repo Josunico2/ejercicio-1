@@ -21,7 +21,6 @@ function setup()
 {
   createCanvas(500, 500);   //crea un lienzo o panel donde estará el juego. El primer parámetro es el ancho y el segundo el alto del lienzo.
   laMagiaDeLosProfes();
-  ponerMinasTablero();
   casillerosSinDescubrir = COLUMNAS * FILAS;
 
   //Asigno colores que se utilizarán. La fn color solo está definida para el setup y el draw
@@ -30,6 +29,8 @@ function setup()
   COLOR_CASILLERO_MARCADO = color("#278EF2");
 
   // Modificar/completar
+  ponerMinasTablero();
+
 }
 
 
@@ -75,7 +76,6 @@ function ponerMinasTablero()
     if(!tieneMinaCasillero(numeroRandomCol,numeroRandomFil)){
       minas -= 1;
       ponerMinaCasillero(numeroRandomCol, numeroRandomFil);
-      pintarCasillero(numeroRandomCol, numeroRandomFil, COLOR_CASILLERO_CON_MINA);
     } 
   } 
 }
@@ -93,6 +93,7 @@ function mostrarMinas()
 
 function contarMinasAlrededor(columna, fila)
 {
+  let cont = 0;
   let arr1 = [-1,0,1,1,1,0,-1,-1];
   let arr2 = [-1,-1,-1,0,1,1,1,0];
 
